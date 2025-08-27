@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-ARG renpy_sdk_version=8.4.0
+ARG renpy_sdk_version=8.4.2
 CMD ["/bin/bash"]
 
 SHELL ["/bin/bash", "-c"]
