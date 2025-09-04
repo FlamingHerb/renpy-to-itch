@@ -11,7 +11,10 @@ RUN apt-get install -y git-lfs
 RUN apt-get install -y ffmpeg libsm6 libxext6
 RUN apt-get install -y unzip
 RUN apt-get install -y bzip2
-RUN apt-get install -y libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
+
+# Install i386 packages separately to avoid dependency issues
+RUN dpkg --add-architecture i386 && apt-get update && \
+	apt-get install -y libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
 
 RUN tar -xvjf renpy-${renpy_sdk_version}-sdk.tar.bz2
 RUN rm renpy-${renpy_sdk_version}-sdk.tar.bz2
