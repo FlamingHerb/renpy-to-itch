@@ -53,22 +53,39 @@ RUN rm renpy-${renpy_sdk_version}-rapt.zip
 # Downloading JDK
 # RUN apt-get install -y temurin-21-jdk
 
-# Download and move Android SDK
+# Install OpenJDK 8 (Ren'Py Android builds work best with JDK 8)
+RUN apt-get install -y openjdk-8-jdk
+
+# Set JAVA_HOME environment variable
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV PATH=$PATH:$JAVA_HOME/bin
+
+# Download and set up Android SDK for Ren'Py
 RUN wget https://dl.google.com/android/repository/commandlinetools-linux-${android_sdk_version}.zip
+RUN mkdir -p rapt/Sdk/cmdline-tools
 RUN unzip commandlinetools-linux-${android_sdk_version}.zip -d rapt/Sdk/
 RUN mv rapt/Sdk/cmdline-tools rapt/Sdk/latest
-RUN mkdir rapt/Sdk/cmdline-tools
 RUN mv rapt/Sdk/latest rapt/Sdk/cmdline-tools/latest
 RUN rm commandlinetools-linux-${android_sdk_version}.zip
 
-# Download Packages
+# Install platform-tools
 RUN wget https://dl.google.com/android/repository/platform-tools-latest-linux.zip
 RUN unzip platform-tools-latest-linux.zip -d rapt/Sdk/
 RUN rm platform-tools-latest-linux.zip
 
-# Download platform
-RUN chmod +x ./rapt/Sdk/cmdline-tools/latest/bin/sdkmanager
-RUN ./rapt/Sdk/cmdline-tools/latest/bin/sdkmanager --sdk-root=./rapt/Sdk/
-RUN ./rapt/Sdk/cmdline-tools/latest/bin/sdkmanager --update -y
-RUN ./rapt/Sdk/cmdline-tools/latest/bin/sdkmanager --licenses -y
-RUN ./rapt/Sdk/cmdline-tools/latest/bin/sdkmanager --install "platforms;android-35" -y
+# Set ANDROID_HOME for Ren'Py
+ENV ANDROID_HOME=/renpy-${renpy_sdk_version}-sdk/rapt/Sdk
+ENV PATH=$PATH:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/cmdline-tools/latest/bin
+
+# Accept licenses and install required Android SDK packages for Ren'Py
+RUN yes | sdkmanager --licenses
+RUN sdkmanager --update
+RUN sdkmanager --install \
+    "platform-tools" \
+    "platforms;android-31" \
+    "build-tools;30.0.3" \
+    "extras;android;m2repository" \
+    "extras;google;m2repository"
+
+# Clean up
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
