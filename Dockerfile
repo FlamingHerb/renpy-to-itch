@@ -11,6 +11,7 @@ RUN apt-get install -y git-lfs
 RUN apt-get install -y ffmpeg libsm6 libxext6
 RUN apt-get install -y unzip
 RUN apt-get install -y bzip2
+RUN apt-get install -y default-jre
 
 # Install i386 packages separately to avoid dependency issues
 # RUN dpkg --add-architecture i386 && apt-get update && \
@@ -50,7 +51,7 @@ RUN rm renpy-${renpy_sdk_version}-rapt.zip
 
 # NOTE: Work
 # Downloading JDK
-RUN apt-get install -y temurin-21-jdk
+# RUN apt-get install -y temurin-21-jdk
 
 # Download and move Android SDK
 RUN wget https://dl.google.com/android/repository/commandlinetools-linux-${android_sdk_version}.zip
