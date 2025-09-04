@@ -68,7 +68,7 @@ RUN rm platform-tools-latest-linux.zip
 
 # Download platform
 RUN chmod +x ./rapt/Sdk/cmdline-tools/latest/bin/sdkmanager
-RUN ./rapt/Sdk/cmdline-tools/latest/bin/sdkmanager --sdk-root=/rapt/Sdk/
+RUN ./rapt/Sdk/cmdline-tools/latest/bin/sdkmanager --sdk-root=./rapt/Sdk/
 RUN ./rapt/Sdk/cmdline-tools/latest/bin/sdkmanager --update -y
 RUN ./rapt/Sdk/cmdline-tools/latest/bin/sdkmanager --licenses -y
 RUN ./rapt/Sdk/cmdline-tools/latest/bin/sdkmanager --install "platforms;android-35" -y
