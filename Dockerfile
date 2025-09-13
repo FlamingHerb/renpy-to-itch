@@ -65,9 +65,9 @@ RUN wget https://dl.google.com/android/repository/commandlinetools-linux-${andro
 RUN mkdir -p rapt/Sdk/cmdline-tools
 RUN mkdir -p rapt/Sdk/latest
 RUN unzip commandlinetools-linux-${android_sdk_version}.zip -d rapt/Sdk/
-RUN mv -v rapt/Sdk/cmdline-tools rapt/Sdk/latest
+RUN mv -v -t rapt/Sdk/cmdline-tools rapt/Sdk/latest
 RUN mkdir -p rapt/Sdk/cmdline-tools/latest
-RUN mv -v rapt/Sdk/latest rapt/Sdk/cmdline-tools/latest
+RUN mv -v -t rapt/Sdk/latest rapt/Sdk/cmdline-tools/latest
 RUN chmod +x rapt/Sdk/cmdline-tools/latest/bin/sdkmanager
 RUN rm commandlinetools-linux-${android_sdk_version}.zip
 
