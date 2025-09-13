@@ -64,9 +64,9 @@ ENV PATH=$PATH:$JAVA_HOME/bin
 RUN wget https://dl.google.com/android/repository/commandlinetools-linux-${android_sdk_version}.zip
 RUN mkdir -p rapt/Sdk/cmdline-tools
 RUN mkdir -p rapt/Sdk/latest
-RUN mkdir -p rapt/Sdk/cmdline-tools/latest
 RUN unzip commandlinetools-linux-${android_sdk_version}.zip -d rapt/Sdk/
 RUN mv rapt/Sdk/cmdline-tools rapt/Sdk/latest
+RUN mkdir -p rapt/Sdk/cmdline-tools/latest
 RUN mv rapt/Sdk/latest rapt/Sdk/cmdline-tools/latest
 RUN rm commandlinetools-linux-${android_sdk_version}.zip
 
