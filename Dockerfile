@@ -54,7 +54,7 @@ RUN rm renpy-${renpy_sdk_version}-rapt.zip
 # RUN apt-get install -y temurin-21-jdk
 
 # Install OpenJDK 8 (Ren'Py Android builds work best with JDK 8)
-RUN apt-get install -y openjdk-8-jdk
+RUN apt-get install -y default-jdk
 
 # Set JAVA_HOME environment variable
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
