@@ -68,6 +68,7 @@ RUN unzip commandlinetools-linux-${android_sdk_version}.zip -d rapt/Sdk/
 RUN mv rapt/Sdk/cmdline-tools rapt/Sdk/latest
 RUN mkdir -p rapt/Sdk/cmdline-tools/latest
 RUN mv rapt/Sdk/latest rapt/Sdk/cmdline-tools/latest
+RUN chmod +x rapt/Sdk/cmdline-tools/latest/bin/sdkmanager
 RUN rm commandlinetools-linux-${android_sdk_version}.zip
 
 # Install platform-tools
