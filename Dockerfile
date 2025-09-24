@@ -83,7 +83,7 @@ RUN yes | sdkmanager --licenses
 RUN sdkmanager --update
 RUN sdkmanager --install \
     "platform-tools" \
-    "platforms;android-31" \
+    "platforms;android-35" \
     "build-tools;30.0.3" \
     "extras;android;m2repository" \
     "extras;google;m2repository"
