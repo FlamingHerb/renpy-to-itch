@@ -3,8 +3,8 @@ name: Build and push Docker image to GitHub Packages
 on:
   push:
     tags:
-      - "v*"        # Trigger when a version tag like v1.0.0 is pushed
-  workflow_dispatch: # Allow manual trigger
+      - "v*"        # Trigger when version tags are pushed (e.g., v1.0.0)
+  workflow_dispatch:
 
 jobs:
   build:
@@ -12,7 +12,7 @@ jobs:
 
     permissions:
       contents: read
-      packages: write  # ✅ Required for GHCR push
+      packages: write  # Needed for GHCR push
 
     steps:
       - name: Check out the repo
@@ -31,9 +31,11 @@ jobs:
 
       - name: Build and push to GHCR
         uses: docker/build-push-action@v5
+        env:
+          OWNER_LC: ${{ github.repository_owner }}
         with:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/renpy-to-itch:latest
-            ghcr.io/${{ github.repository_owner }}/renpy-to-itch:${{ steps.get_version.outputs.version }}
+            ghcr.io/${{ env.OWNER_LC,, }}/renpy-to-itch:latest
+            ghcr.io/${{ env.OWNER_LC,, }}/renpy-to-itch:${{ steps.get_version.outputs.version }}
