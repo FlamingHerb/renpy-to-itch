@@ -39,17 +39,3 @@ jobs:
         for tag in $(echo "${{ steps.meta.outputs.tags }}" | tr ',' ' '); do
           podman push $tag
         done
-```
-
-**Key changes:**
-
-1. **Uses Podman** - Native Podman commands instead of Docker actions
-2. **GitHub Packages** - Pushes to `ghcr.io` (GitHub Container Registry)
-3. **GITHUB_TOKEN** - Uses automatic token (no secrets needed)
-4. **Permissions** - Added required `packages: write` permission
-5. **Tag handling** - Pushes both version tag and `:latest` when tagged
-
-**Your image will be available at:**
-```
-ghcr.io/<your-username>/renpy-to-itch:latest
-ghcr.io/<your-username>/renpy-to-itch:v1.0.0  # (when tagged)
