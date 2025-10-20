@@ -26,7 +26,7 @@ jobs:
     container: ghcr.io/flamingherb/renpy-to-itch:latest
     steps:
         - name: Checkout
-          uses: actions/checkout@v4
+          uses: actions/checkout@v5
           with:
               lfs: true
 
@@ -89,9 +89,9 @@ jobs:
 
         - name: Push All to Itch
           run: |
-            butler push ~/builds/*-win.zip vaccaria/test-project:windows-stable --userversion ${{steps.tag.outputs.tag}}
-            butler push ~/builds/*-linux.tar.bz2 vaccaria/test-project:linux-stable --userversion ${{steps.tag.outputs.tag}}
-            butler push ~/builds/*-mac.zip vaccaria/test-project:mac-stable --userversion ${{steps.tag.outputs.tag}}
-            butler push ~/builds/web.zip vaccaria/test-project:html-stable --userversion ${{steps.tag.outputs.tag}}
-            butler push ~/builds/android/*.apk vaccaria/test-project:android-stable --userversion ${{steps.tag.outputs.tag}}
+            butler push ~/builds/*-win.zip itch-user/test-game:windows-stable --userversion ${{steps.tag.outputs.tag}}
+            butler push ~/builds/*-linux.tar.bz2 itch-user/test-game:linux-stable --userversion ${{steps.tag.outputs.tag}}
+            butler push ~/builds/*-mac.zip itch-user/test-game:mac-stable --userversion ${{steps.tag.outputs.tag}}
+            butler push ~/builds/web.zip itch-user/test-game:html-stable --userversion ${{steps.tag.outputs.tag}}
+            butler push ~/builds/android/*.apk itch-user/test-game:android-stable --userversion ${{steps.tag.outputs.tag}}
 ```
