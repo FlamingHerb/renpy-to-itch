@@ -1,4 +1,4 @@
-FROM quay.io/ubuntu/ubuntu:latest
+FROM registry.hub.docker.com/library/ubuntu:latest
 ARG renpy_sdk_version=8.4.1
 ARG android_sdk_version=11076708_latest
 CMD ["/bin/bash"]
