@@ -23,7 +23,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: v4ccarria/renpy-to-itch:latest
+    container: ghcr.io/flamingherb/renpy-to-itch:latest
     steps:
         - name: Checkout
           uses: actions/checkout@v4
