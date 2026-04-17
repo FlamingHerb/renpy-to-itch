@@ -1,16 +1,29 @@
 # renpy-to-itch
 
-## Setup
+A Docker container for building Ren'Py games and publishing them to itch.io.
 
-- Change secrets.
-  - Like the `Itch_API_Key`.
-- Change routing for builds.
-- ???
-- Profit.
+## Summary
 
-## Example build
+This project provides a pre-built Docker image containing:
+- **Ren'Py SDK** (configurable version, default 8.5.2)
+- **Android SDK** for building Android APKs
+- **butler** CLI for pushing builds to itch.io
+- Required build tools (Java, Python, ffmpeg, etc.)
 
+## Quick Start
+
+### 1. Use the Pre-built Image
+
+Pull the image from GitHub Container Registry:
+```bash
+docker pull ghcr.io/flamingherb/renpy-to-itch:latest
 ```
+
+### 2. Configure Your GitHub Actions Workflow
+
+Add this workflow to `.github/workflows/build.yml`:
+
+```yaml
 name: "Itch.io Export"
 
 on:
@@ -18,7 +31,6 @@ on:
     tags:
       - "v*"      
   workflow_dispatch:
-
 
 jobs:
   build:
@@ -34,7 +46,6 @@ jobs:
           id: tag
           uses: 32teeth/action-github-tag@v1.0.7
           with:
-            # Return only the tag number (e.g., v1.0.0 -> 1.0.0)
             numbers_only: true
 
         - name: Change version according to specified version tag
@@ -50,32 +61,16 @@ jobs:
             mkdir -v -p ~/builds
             mkdir -v -p ~/builds/web
 
-        - name: Debug (Checking with ls)
-          run: |
-            ls -l
-
         - name: Ren'Py PC Distributions
-          id: renpy_dist_pc
           run: |
             cd /renpy-*/
             ./renpy.sh launcher distribute ${{ github.event.repository.name }}/ --destination ~/builds
             ./renpy.sh launcher web_build ${{ github.event.repository.name }}/ --destination ~/builds/web
-        
+
         - name: Ren'Py Mobile Distributions
-          id: renpy_dist_mobile
           run: |
             cd /renpy-*/
             ./renpy.sh launcher android_build ${{ github.event.repository.name }}/ --destination ~/builds/android
-
-        # - name: Upload Artifact
-        #   id: upload_artifact
-        #   uses: actions/upload-artifact@v4
-        #   with:
-        #     path: ~/builds/
-        
-        - name: Obligatory LS
-          run : ls ~/builds
-
 
         - name: Place API Key to butler_creds
           run: |
@@ -83,15 +78,52 @@ jobs:
             touch ~/.config/itch/butler_creds
             echo -n ${{ secrets.Itch_API_Key }} | cat > ~/.config/itch/butler_creds
         
-        - name: Logging in to Itch
-          run: |
-            butler login
-
         - name: Push All to Itch
           run: |
-            butler push ~/builds/*-win.zip itch-user/test-game:windows-stable --userversion ${{steps.tag.outputs.tag}}
-            butler push ~/builds/*-linux.tar.bz2 itch-user/test-game:linux-stable --userversion ${{steps.tag.outputs.tag}}
-            butler push ~/builds/*-mac.zip itch-user/test-game:mac-stable --userversion ${{steps.tag.outputs.tag}}
-            butler push ~/builds/web.zip itch-user/test-game:html-stable --userversion ${{steps.tag.outputs.tag}}
-            butler push ~/builds/android/*.apk itch-user/test-game:android-stable --userversion ${{steps.tag.outputs.tag}}
+            butler push ~/builds/*-win.zip itch-user/your-game:windows-stable --userversion ${{steps.tag.outputs.tag}}
+            butler push ~/builds/*-linux.tar.bz2 itch-user/your-game:linux-stable --userversion ${{steps.tag.outputs.tag}}
+            butler push ~/builds/*-mac.zip itch-user/your-game:mac-stable --userversion ${{steps.tag.outputs.tag}}
+            butler push ~/builds/web.zip itch-user/your-game:html-stable --userversion ${{steps.tag.outputs.tag}}
+            butler push ~/builds/android/*.apk itch-user/your-game:android-stable --userversion ${{steps.tag.outputs.tag}}
 ```
+
+## Configuration
+
+### Required Secrets
+
+Add these in your GitHub repository settings:
+- `Itch_API_Key`: Your itch.io butler API key
+
+### Customizing the Build
+
+1. **Update game version**: Edit the `sed` command in the workflow to match your game's version format
+2. **Update itch.io channel names**: Replace `itch-user/your-game:windows-stable` with your actual game/channel names
+3. **Change Ren'Py version**: Build the image with `--build-arg renpy_sdk_version=8.4.1`
+
+## Building the Container Locally
+
+```bash
+docker build -t renpy-to-itch .
+```
+
+## Building and Publishing the Container
+
+This project includes a workflow (`.github/workflows/docker.yml`) that automatically builds and pushes the container to GHCR when you push a version tag.
+
+To release a new version:
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+The image will be available at:
+- `ghcr.io/flamingherb/renpy-to-itch:v1.0.0`
+- `ghcr.io/flamingherb/renpy-to-itch:latest`
+
+## Files
+
+| File | Description |
+|------|-------------|
+| `Dockerfile` | Container definition with Ren'Py SDK, Android SDK, and butler |
+| `.github/workflows/docker.yml` | CI workflow to build and push the container |
+| `README.md` | Original documentation with example workflow |
