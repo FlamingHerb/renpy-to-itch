@@ -22,7 +22,7 @@ RUN rm renpy-${renpy_sdk_version}-sdk.tar.bz2
 
 WORKDIR /renpy-${renpy_sdk_version}-sdk
 
-RUN wget https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+RUN wget https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
 RUN mv default butler.zip
 RUN unzip butler.zip
 RUN rm butler.zip
