@@ -5,7 +5,7 @@ A Docker container for building Ren'Py games and publishing them to itch.io.
 ## Summary
 
 This project provides a pre-built Docker image containing:
-- **Ren'Py SDK** (configurable version, default 8.5.2)
+- **Ren'Py SDK** (configurable version, default 8.6.0)
 - **Android SDK** for building Android APKs
 - **butler** CLI for pushing builds to itch.io
 - Required build tools (Java, Python, ffmpeg, etc.)
