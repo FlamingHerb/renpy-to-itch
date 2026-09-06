@@ -1,6 +1,6 @@
 FROM registry.hub.docker.com/library/ubuntu:latest
-ARG renpy_sdk_version=8.5.2
-ARG android_sdk_version=11076708_latest
+ARG renpy_sdk_version=8.6.0
+ARG android_sdk_version=15859902_latest
 CMD ["/bin/bash"]
 
 SHELL ["/bin/bash", "-c"]
