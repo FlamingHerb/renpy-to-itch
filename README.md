@@ -98,7 +98,7 @@ Add these in your GitHub repository settings:
 
 1. **Update game version**: Edit the `sed` command in the workflow to match your game's version format
 2. **Update itch.io channel names**: Replace `itch-user/your-game:windows-stable` with your actual game/channel names
-3. **Change Ren'Py version**: Build the image with `--build-arg renpy_sdk_version=8.4.1`
+3. **Change Ren'Py version**: Build the image with `--build-arg renpy_sdk_version=8.6.0`
 
 ## Building the Container Locally
 
